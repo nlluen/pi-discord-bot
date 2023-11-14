@@ -50,14 +50,14 @@ async def stop(ctx):
     await bot.close()
 
 
-# async def load():
-#     for folder in os.listdir('modules'):
-#         if os.path.exists(os.path.join('modules', folder, 'cog.py')):
-#             await bot.load_extension(f'modules.{folder}.cog')
+async def load():
+    for folder in os.listdir('modules'):
+        if os.path.exists(os.path.join('modules', folder, 'cog.py')):
+            await bot.load_extension(f'modules.{folder}.cog')
 
 
 async def main():
-    #await load()
+    await load()
     await bot.start(os.environ['TOKEN'])
     #await bot.start('')
 asyncio.run(main())
