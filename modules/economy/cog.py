@@ -73,7 +73,7 @@ class Economy(commands.Cog):
         else:
             if (dabloon_amt <= 0):
 
-                return+fish
+                return
 
             print('in here!')
             x = self.bot.get_cog('Fish')
