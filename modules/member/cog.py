@@ -28,7 +28,6 @@ class Member(commands.Cog):
         }
 
         with open('members.json', 'r') as rf:
-            print('in here')
             members = json.load(rf)
 
         if str(user_id) in members:
@@ -39,7 +38,7 @@ class Member(commands.Cog):
             with open('members.json', "w") as file:
                 json.dump(members, file)
 
-    def display_info(self, member_id, member):
+    def embed_info(self, member_id, member):
         with open('members.json', 'r') as rf:
             members = json.load(rf)
 
@@ -47,26 +46,38 @@ class Member(commands.Cog):
             fname = members[member_id]["fname"]
             birthday = members[member_id]["birthday"]
             dabloons = members[member_id]["dabloons"]
+            print("gggg")
             pfp = member.display_avatar
-            em = discord.Embed(title=f"{member.name}'s Information", color=discord.Color.blue())
-            em.add_field(name='Name', value= fname)
-            em.add_field(name='Birthday', value=birthday)
-            em.add_field(name='Dabloons', value=dabloons)
+            print("HGEE")
+            em = discord.Embed(title=f"{member.nick}'s Information", color=discord.Color.blue())
+            em.add_field(name='Name', value=fname, inline=True)
+            em.add_field(name='Birthday', value=birthday, inline=True)
+            em.add_field(name='Dabloons', value=dabloons, inline=False)
+            em.add_field(name='Server Join Date', value=member.joined_at.strftime('%m/%d/%Y at %H:%M:%S'), inline=False)
             em.set_thumbnail(url=f'{pfp}')
+            #em.set_footer(text="footer")
             return em
 
     @commands.command(name='info', help="display your info")
     async def info(self, ctx):
         member_id = str(ctx.author.id)
-        member = await self.bot.fetch_user(member_id)
-        em = self.display_info(member_id, member)
+        member = ctx.author
+        em = self.embed_info(member_id, member)
         await ctx.send(embed=em)
 
     @commands.command(name='getinfo', help="display another person's info")
     async def getinfo(self, ctx, arg):
         member_id = re.sub(r'[<@>]', '', arg)
-        member = await self.bot.fetch_user(member_id)
-        em = self.display_info(member_id, member)
+        server_id = 752401958647890104
+        member = await self.bot.get_guild(server_id).get_member(member_id)
+        em = self.embed_info(member_id, member)
+        await ctx.send(embed=em)
+
+    @commands.command(name='av', help="display your profile picture")
+    async def av(self, ctx):
+        pfp = ctx.message.author.display_avatar
+        em = discord.Embed(title=f"{ctx.author.nick}'s Avatar", color=discord.Color.blue())
+        em.set_image(url=f'{pfp}')
         await ctx.send(embed=em)
 
 
