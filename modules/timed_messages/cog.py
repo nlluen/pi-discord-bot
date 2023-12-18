@@ -39,6 +39,8 @@ class Timed_Messages(commands.Cog):
             if hour == 17 and minute == 00:
                 work_message = self.get_work_message()
                 await gen_channel.send(work_message)
+            if hour == 23 and minute == 30:
+                await gen_channel.send("Getting sleepy... Goodnight everyone see you all tomorrow. Sweet dreams :)")
         else:
             print('no work')
 
