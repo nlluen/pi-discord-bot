@@ -46,9 +46,7 @@ class Member(commands.Cog):
             fname = members[member_id]["fname"]
             birthday = members[member_id]["birthday"]
             dabloons = members[member_id]["dabloons"]
-            print("gggg")
             pfp = member.display_avatar
-            print("HGEE")
             em = discord.Embed(title=f"{member.nick}'s Information", color=discord.Color.blue())
             em.add_field(name='Name', value=fname, inline=True)
             em.add_field(name='Birthday', value=birthday, inline=True)
