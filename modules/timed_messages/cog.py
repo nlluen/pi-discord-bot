@@ -36,17 +36,19 @@ class Timed_Messages(commands.Cog):
             if hour == 8 and minute == 00:
                 morning_message = self.get_morning_messages()
                 await gen_channel.send(morning_message)
+            if hour == 16 and minute == 20:
+                await gen_channel.send("420")
             if hour == 17 and minute == 00:
                 work_message = self.get_work_message()
                 await gen_channel.send(work_message)
-            if hour == 20 and minute == 16:
-                await gen_channel.send("h")
+            if hour == 23 and minute == 11:
+                await gen_channel.send("11:11 make a wish")
             if hour == 23 and minute == 30:
                 await gen_channel.send("Getting sleepy... Goodnight everyone see you all tomorrow. Sweet dreams :)")
         else:
             print('no work')
 
-    @tasks.loop(seconds=5)
+    @tasks.loop(seconds=60)
     async def birthday_messages(self):
         date = datetime.datetime.now()
         todays_month = date.month
@@ -56,7 +58,6 @@ class Timed_Messages(commands.Cog):
             members = json.load(rf)
 
         for member_id in members:
-            #birthday_day = members[member_id]["birthday"]
             birthday_month, birthday_day = map(int, members[member_id]["birthday"].split('/'))
             if todays_month == birthday_month and todays_day == birthday_day:
                 gen_channel_id = 752401958647890108
