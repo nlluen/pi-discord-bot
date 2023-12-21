@@ -60,17 +60,20 @@ class Timed_Messages(commands.Cog):
         for member_id in members:
             birthday_month, birthday_day = map(int, members[member_id]["birthday"].split('/'))
             if todays_month == birthday_month and todays_day == birthday_day:
-                gen_channel_id = 752401958647890108
-                gen_channel = self.bot.get_channel(gen_channel_id)
-                if gen_channel:
-                    await gen_channel.send(f"Today is <@{member_id}>'s birthday! Everyone wish them a HBD")
-
-
-
-
-
-
-
+                if date.hour == 00 and date.minute == 10:
+                    gen_channel_id = 752401958647890108
+                    gen_channel = self.bot.get_channel(gen_channel_id)
+                    if gen_channel:
+                        server_id = 752401958647890104
+                        member = self.bot.get_guild(server_id).get_member(members[member_id]["user_id"])
+                        print(member)
+                        em = discord.Embed(title="Happy Birthday", color=discord.Color.blue())
+                        em.description = f"Today is <@{member_id}>'s birthday! Everyone wish them a a happy birthday :D"
+                        #em.add_field(f"Today is <@{member_id}>'s birthday! Everyone wish them a happy birthday :D")
+                        print('h')
+                        pfp = member.display_avatar
+                        em.set_thumbnail(url=f'{pfp}')
+                        await gen_channel.send(embed=em)
 
 
 async def setup(bot):

@@ -1,10 +1,18 @@
+import asyncio
+
 import discord
 from discord.ext import commands
 
 
-class Example(commands.Cog):
+class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name='purge', help='purge x amount of message')
+    async def purge(self, ctx, arg: int):
+        if arg < 15:
+            await ctx.channel.purge(limit=arg+1)
+            await asyncio.sleep(3)
 
     @commands.command(name='poll', help='create a poll with up to 10 inputs')
     async def poll(self, ctx, *args):
@@ -12,7 +20,7 @@ class Example(commands.Cog):
             await ctx.send('Too many inputs...')
             return
 
-        number_emojis = [1186851978760945715, 1186852036646551552]
+        number_emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 
         em = discord.Embed(title=f'{args[0]}', color=discord.Color.dark_gold())
         # em.add_field(name='1', value=playlists['1'])
@@ -23,15 +31,11 @@ class Example(commands.Cog):
         message = await ctx.send(embed=em)
 
         for i in range(0, len(args) - 1):
-            emote = ctx.guild.get_emoji(1186854497469861898)
-            if not emote:
-                print("zzz")
-
-            await message.add_reaction(emote)
+            await message.add_reaction(number_emojis[i])
 
 
 async def setup(bot):
-    await bot.add_cog(Example(bot))
+    await bot.add_cog(Utility(bot))
 
 
 
