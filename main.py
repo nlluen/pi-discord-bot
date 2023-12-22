@@ -25,8 +25,10 @@ async def ping(ctx):
 
 @bot.command(name='stop', help='stops bot')
 async def stop(ctx):
-    await bot.get_channel(1045937547597053982).send("I am getting very sleepy...why is it all turning black...")
-    await bot.close()
+    allowed_role = discord.utils.get(ctx.guild.roles, name="The Godfather")
+    if allowed_role in ctx.author.roles:
+        await bot.get_channel(1045937547597053982).send("I am getting very sleepy...why is it all turning black...")
+        await bot.close()
 
 
 async def load():
