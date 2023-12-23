@@ -43,11 +43,13 @@ class Member(commands.Cog):
             members = json.load(rf)
 
         if member_id in members:
+
             fname = members[member_id]["fname"]
             birthday = members[member_id]["birthday"]
             dabloons = members[member_id]["dabloons"]
             pfp = member.display_avatar
             em = discord.Embed(title=f"{member.nick}'s Information", color=discord.Color.blue())
+            print('here')
             em.add_field(name='Name', value=fname, inline=True)
             em.add_field(name='Birthday', value=birthday, inline=True)
             em.add_field(name='Dabloons', value=dabloons, inline=False)
@@ -57,23 +59,34 @@ class Member(commands.Cog):
             return em
 
     @commands.command(name='info', help="display your info")
-    async def info(self, ctx):
-        member_id = str(ctx.author.id)
-        member = ctx.author
+    async def info(self, ctx, user: discord.User = None):
+        server_id = 752401958647890104
+        if user is None:
+            member_id = str(ctx.author.id)
+            member = ctx.author
+        else:
+            member_id = str(user.id)
+            member = self.bot.get_guild(server_id).get_member(int(member_id))
+            print(member_id)
+            print(member)
+
         em = self.embed_info(member_id, member)
         await ctx.send(embed=em)
 
-    @commands.command(name='getinfo', help="display another person's info")
-    async def getinfo(self, ctx, arg):
-        member_id = re.sub(r'[<@>]', '', arg)
-        server_id = 752401958647890104
-        member = await self.bot.get_guild(server_id).get_member(member_id)
-        em = self.embed_info(member_id, member)
-        await ctx.send(embed=em)
+    # @commands.command(name='getinfo', help="display another person's info")
+    # async def getinfo(self, ctx, arg):
+    #     member_id = re.sub(r'[<@>]', '', arg)
+    #     server_id = 752401958647890104
+    #     member = self.bot.get_guild(server_id).get_member(int (member_id))
+    #     em = self.embed_info(member_id, member)
+    #     await ctx.send(embed=em)
 
     @commands.command(name='av', help="display your profile picture")
-    async def av(self, ctx):
-        pfp = ctx.message.author.display_avatar
+    async def av(self, ctx, user: discord.User = None):
+        if user is None:
+            pfp = ctx.message.author.display_avatar
+        else:
+            pfp = user.display_avatar
         em = discord.Embed(title=f"{ctx.author.nick}'s Avatar", color=discord.Color.blue())
         em.set_image(url=f'{pfp}')
         await ctx.send(embed=em)

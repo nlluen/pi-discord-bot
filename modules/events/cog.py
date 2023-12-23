@@ -9,6 +9,13 @@ class Events(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
+        gifs = self.bot.get_cog("Gifs")
+        ignore_message = gifs.get_ignore_message()
+
+        if ignore_message:
+            print('ignoring message')
+            return
+
         if message.author == self.bot.user:
             return
 

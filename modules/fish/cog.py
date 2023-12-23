@@ -21,6 +21,15 @@ class Fish(commands.Cog):
         await self.set_fish_data()
         print("on ready in fish")
 
+    # async def spawn(self):
+    #     global spawn
+    #     global start_time
+    #     global fished
+    #     fished = False
+    #     start_time = time.time()
+    #     spawn = random.randint(1, 50)
+    #     return spawn
+    #
     # @commands.cooldown(1, 1.5, commands.BucketType.user)
     # @commands.group(name='fish', help='spawn in a fish', invoke_without_command=True)
     # async def fish(self, ctx):
@@ -79,14 +88,7 @@ class Fish(commands.Cog):
     #     else:
     #         await ctx.send("The fish swam away! Better luck next time :o")
     #
-    # async def spawn(self):
-    #     global spawn
-    #     global start_time
-    #     global fished
-    #     fished = False
-    #     start_time = time.time()
-    #     spawn = random.randint(1, 50)
-    #     return spawn
+
     #
     # async def get_fish_data(self):
     #     with open('fishdata.json', 'r') as rf:
