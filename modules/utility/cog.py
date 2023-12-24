@@ -9,8 +9,7 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
-
+    @commands.has_any_role('Untitled', 'The Godfather')
     @commands.command(name='purge', help='purge x amount of message')
     async def purge(self, ctx, arg: int):
         if arg < 15:
