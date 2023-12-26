@@ -83,11 +83,14 @@ class Member(commands.Cog):
 
     @commands.command(name='av', help="display your profile picture")
     async def av(self, ctx, user: discord.User = None):
+        server_id = 752401958647890104
         if user is None:
+            member = ctx.message.author
             pfp = ctx.message.author.display_avatar
         else:
             pfp = user.display_avatar
-        em = discord.Embed(title=f"{ctx.author.nick}'s Avatar", color=discord.Color.blue())
+            member = self.bot.get_guild(server_id).get_member(user.id)
+        em = discord.Embed(title=f"{member.nick}'s Avatar", color=discord.Color.blue())
         em.set_image(url=f'{pfp}')
         await ctx.send(embed=em)
 

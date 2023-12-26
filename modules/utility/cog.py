@@ -40,9 +40,9 @@ class Utility(commands.Cog):
     async def flip(self, ctx):
         HoT = random.randint(0, 1)
         if HoT:
-            await ctx.send('Heads!')
+            await ctx.send(f'<@{ctx.message.author.id}> Heads!')
         else:
-            await ctx.send('Tails!')
+            await ctx.send(f'<@{ctx.message.author.id}> Tails!')
 
     @commands.command(name='flip2', help='Flip a coin and bet on which side it lands')
     async def flip2(self, ctx):
