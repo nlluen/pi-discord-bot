@@ -73,14 +73,6 @@ class Member(commands.Cog):
         em = self.embed_info(member_id, member)
         await ctx.send(embed=em)
 
-    # @commands.command(name='getinfo', help="display another person's info")
-    # async def getinfo(self, ctx, arg):
-    #     member_id = re.sub(r'[<@>]', '', arg)
-    #     server_id = 752401958647890104
-    #     member = self.bot.get_guild(server_id).get_member(int (member_id))
-    #     em = self.embed_info(member_id, member)
-    #     await ctx.send(embed=em)
-
     @commands.command(name='av', help="display your profile picture")
     async def av(self, ctx, user: discord.User = None):
         server_id = 752401958647890104
