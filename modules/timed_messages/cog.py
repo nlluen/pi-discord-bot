@@ -12,19 +12,18 @@ class Timed_Messages(commands.Cog):
         self.birthday_messages.start()
         self.water_reminder.start()
 
-
     def get_work_message(self):
         message = "Happy 5 PM everyone"
         return message
-        #message_list = ["Happy 5 PM everyone!"]
+        # message_list = ["Happy 5 PM everyone!"]
 
     def get_morning_messages(self):
-            message_list = ["Good morning everyone! Have a great day :)", "Rise and grind everyone!"]
-            num = random.randint(0, 1)
-            message = message_list[num]
-            return message
+        message_list = ["Good morning everyone! Have a great day :)", "Rise and grind everyone!"]
+        num = random.randint(0, 1)
+        message = message_list[num]
+        return message
 
-    #@commands.cooldown(1, 1, commands.BucketType.user)
+    # @commands.cooldown(1, 1, commands.BucketType.user)
     @tasks.loop(seconds=60)
     async def daily_messages(self):
         date = datetime.datetime.now()
@@ -69,37 +68,41 @@ class Timed_Messages(commands.Cog):
                         print(member)
                         em = discord.Embed(title="Happy Birthday", color=discord.Color.blue())
                         em.description = f"Today is <@{member_id}>'s birthday! Everyone wish them a a happy birthday :D"
-                        #em.add_field(f"Today is <@{member_id}>'s birthday! Everyone wish them a happy birthday :D")
+                        # em.add_field(f"Today is <@{member_id}>'s birthday! Everyone wish them a happy birthday :D")
                         pfp = member.display_avatar
                         em.set_thumbnail(url=f'{pfp}')
                         await gen_channel.send(embed=em)
 
-
-    #pooja's water reminder
+    # pooja's water reminder
     @tasks.loop(minutes=60)
     async def water_reminder(self):
         water_messages = ["It's time to dink your oiter! Remember to stay hydrated :)",
-                    "You must be parched, dink some oiter!",
-                    "Water you waiting for? Dink up some oiter!",
-                    "Pour decisions are the ones without oiter. Hydrate wisely!",
-                    "Sip, sip, hooray! It's oiter time!",
-                    "You shore could use a dink right now! What about some oiter?",
-                    "Hydrate to feel great!",
-                    "DINK MORE OITER NOW!",
-                    "Oiter is the solution to so many problems, dink some!",
-                    "You're mostly made of oiter so dink some!",
-                    "Stay hydrated and dink some oiter right now!",
-                    "Dink oiter for clear skin and a better gut :D"]
+                          "You must be parched, dink some oiter!",
+                          "Water you waiting for? Dink up some oiter!",
+                          "Pour decisions are the ones without oiter. Hydrate wisely!",
+                          "Sip, sip, hooray! It's oiter time!",
+                          "You shore could use a dink right now! What about some oiter?",
+                          "Hydrate to feel great!",
+                          "DINK MORE OITER NOW!",
+                          "Oiter is the solution to so many problems, dink some!",
+                          "You're mostly made of oiter so dink some!",
+                          "Stay hydrated and dink some oiter right now!",
+                          "Dink oiter for clear skin and a better gut :D"]
         server_id = 752401958647890104
         date = datetime.datetime.now()
         if 10 <= date.hour <= 23:
             server = self.bot.get_guild(server_id)
-            print(server)
             if not server:
                 return
             user = server.get_member(1184993798875512894)
             num = random.randint(0, 12)
             await user.send(water_messages[num])
+
+    @birthday_messages.before_loop
+    @daily_messages.before_loop
+    @water_reminder.before_loop
+    async def before_water_reminder(self):
+        await self.bot.wait_until_ready()
 
 
 async def setup(bot):
