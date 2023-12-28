@@ -1,5 +1,7 @@
 from discord.ext import commands
 ignore_message_delete = False
+import time
+import random
 
 class Gifs(commands.Cog):
     def __init__(self, bot):
@@ -39,6 +41,17 @@ class Gifs(commands.Cog):
             await ctx.send('https://cdn.discordapp.com/attachments/752401958647890108/1079994924906324089/Screenshot_20220713-163149_YouTube.jpg')
         finally:
             self.set_ignore_message(False)
+
+    @commands.command(name='capcheck', help='checks for cap')
+    async def capcheck(self, ctx):
+        await ctx.send('https://tenor.com/view/cap-cap-check-gif-24989004')
+        await ctx.send("CAP CHECK RESULTS:")
+        time.sleep(3.0)
+        HoT = random.randint(0, 1)
+        if HoT:
+            await ctx.send('cap')
+        else:
+            await ctx.send('not cap')
 
 
 async def setup(bot):
