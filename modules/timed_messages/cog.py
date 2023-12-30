@@ -4,7 +4,6 @@ import datetime
 import random
 import json
 
-
 class Timed_Messages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -24,7 +23,7 @@ class Timed_Messages(commands.Cog):
         return message
 
     # @commands.cooldown(1, 1, commands.BucketType.user)
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=3)
     async def daily_messages(self):
         date = datetime.datetime.now()
         gen_channel_id = 752401958647890108
@@ -35,7 +34,7 @@ class Timed_Messages(commands.Cog):
             minute = date.minute
             if hour == 8 and minute == 00:
                 morning_message = self.get_morning_messages()
-                await gen_channel.send(morning_message)
+                await gen_channel.send(date.strftime(f"{morning_message} Today is %B %d, %Y"))
             if hour == 16 and minute == 20:
                 await gen_channel.send("420")
             if hour == 17 and minute == 00:
@@ -55,7 +54,6 @@ class Timed_Messages(commands.Cog):
         todays_day = date.day
         with open('members.json', 'r') as rf:
             members = json.load(rf)
-
         for member_id in members:
             birthday_month, birthday_day = map(int, members[member_id]["birthday"].split('/'))
             if todays_month == birthday_month and todays_day == birthday_day:
@@ -95,7 +93,7 @@ class Timed_Messages(commands.Cog):
             if not server:
                 return
             user = server.get_member(1184993798875512894)
-            num = random.randint(0, 12)
+            num = random.randint(0, 11)
             await user.send(water_messages[num])
 
     @birthday_messages.before_loop
