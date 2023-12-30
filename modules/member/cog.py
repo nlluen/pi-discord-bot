@@ -82,7 +82,7 @@ class Member(commands.Cog):
         else:
             pfp = user.display_avatar
             member = self.bot.get_guild(server_id).get_member(user.id)
-        em = discord.Embed(title=f"{member.nick}'s Avatar", color=discord.Color.blue())
+        em = discord.Embed(title=f"{member.display_name}'s Avatar", color=discord.Color.blue())
         em.set_image(url=f'{pfp}')
         await ctx.send(embed=em)
 
