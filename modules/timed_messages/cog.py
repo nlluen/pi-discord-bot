@@ -23,7 +23,7 @@ class Timed_Messages(commands.Cog):
         return message
 
     # @commands.cooldown(1, 1, commands.BucketType.user)
-    @tasks.loop(seconds=3)
+    @tasks.loop(seconds=60)
     async def daily_messages(self):
         date = datetime.datetime.now()
         gen_channel_id = 752401958647890108
