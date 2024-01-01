@@ -38,8 +38,9 @@ class Timed_Messages(commands.Cog):
             if hour == 16 and minute == 20:
                 await gen_channel.send("420")
             if hour == 17 and minute == 00:
-                work_message = self.get_work_message()
-                await gen_channel.send(work_message)
+                if date.weekday() < 5:
+                    work_message = self.get_work_message()
+                    await gen_channel.send(work_message)
             if hour == 23 and minute == 11:
                 await gen_channel.send("11:11 make a wish")
             if hour == 23 and minute == 30:
