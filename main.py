@@ -3,9 +3,28 @@ import os
 import discord
 from discord.ext import commands
 
+
+class CustomHelpCommand(commands.DefaultHelpCommand):
+    def __init__(self):
+        super().__init__()
+
+    async def send_command_help(self, command):
+        ctx = self.context
+        embed = discord.Embed(
+            title=f"{command.name}",
+            description=command.help or "No help available.",
+            color=discord.Color.blue()
+        )
+
+        # Add usage information
+        usage = self.get_command_signature(command)
+        embed.add_field(name="Usage", value=f"`{usage}`", inline=False)
+        await ctx.send(embed=embed)
+
+
 intents = discord.Intents.all()
 intents.message_content = True
-bot = commands.Bot(command_prefix='+', intents=intents)
+bot = commands.Bot(command_prefix='+', intents=intents, help_command=CustomHelpCommand())
 client = discord.Client(intents=intents)
 
 
