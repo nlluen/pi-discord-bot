@@ -67,7 +67,6 @@ class Timed_Messages(commands.Cog):
                     if gen_channel:
                         server_id = 752401958647890104
                         member = self.bot.get_guild(server_id).get_member(members[member_id]["User_ID"])
-                        print(member)
                         em = discord.Embed(title="Happy Birthday", color=discord.Color.blue())
                         em.description = f"Today is <@{member_id}>'s birthday! Everyone wish them a happy birthday :D"
                         # em.add_field(f"Today is <@{member_id}>'s birthday! Everyone wish them a happy birthday :D")
@@ -76,9 +75,9 @@ class Timed_Messages(commands.Cog):
                         await gen_channel.send(embed=em)
 
     # pooja's water reminder
-    @tasks.loop(minutes=60)
-    async def water_reminder(self):
-        print('i work')
+    # @tasks.loop(minutes=60)
+    # async def water_reminder(self):
+        #print('i work')
         # water_messages = ["It's time to dink your oiter! Remember to stay hydrated :)",
         #                   "You must be parched, dink some oiter!",
         #                   "Water you waiting for? Dink up some oiter!",
