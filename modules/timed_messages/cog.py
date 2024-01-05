@@ -23,7 +23,7 @@ class Timed_Messages(commands.Cog):
         self.bot = bot
         self.daily_messages.start()
         self.birthday_messages.start()
-        self.water_reminder.start()
+        #self.water_reminder.start()
 
     # @commands.cooldown(1, 1, commands.BucketType.user)
     @tasks.loop(seconds=60)
@@ -102,7 +102,7 @@ class Timed_Messages(commands.Cog):
 
     @birthday_messages.before_loop
     @daily_messages.before_loop
-    @water_reminder.before_loop
+    #@water_reminder.before_loop
     async def before_water_reminder(self):
         await self.bot.wait_until_ready()
 
