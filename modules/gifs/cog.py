@@ -7,7 +7,7 @@ class Gifs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def get_ignore_message(self):
+    def get_ignore_message(self) -> bool:
         global ignore_message_delete
         return ignore_message_delete
 

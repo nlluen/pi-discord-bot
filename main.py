@@ -1,46 +1,30 @@
-import asyncio
-import os
 import discord
 from discord.ext import commands
-
-
-class CustomHelpCommand(commands.DefaultHelpCommand):
-    def __init__(self):
-        super().__init__()
-
-    async def send_command_help(self, command):
-        ctx = self.context
-        embed = discord.Embed(
-            title=f"{command.name}",
-            description=command.help or "No help available.",
-            color=discord.Color.blue()
-        )
-
-        # Add usage information
-        usage = self.get_command_signature(command)
-        embed.add_field(name="Usage", value=f"`{usage}`", inline=False)
-        await ctx.send(embed=embed)
-
+from discord import Interaction
+import asyncio
+import os
 
 intents = discord.Intents.all()
 intents.message_content = True
-bot = commands.Bot(command_prefix='+', intents=intents, help_command=CustomHelpCommand())
-client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='+', intents=intents)
 
 
 @bot.event
 async def on_ready():
     activity = discord.Activity(type=discord.ActivityType.watching, name="The Degenerates of this Server")
     await bot.change_presence(activity=activity)
-    #await bot.change_presence(activity=discord.Game("League Of Legends"))
-    #await bot.get_channel(1045937547597053982).send("I'm back and capable of being awake 24/7.");
+    synced = await bot.tree.sync(guild=discord.Object(id=752401958647890104))
     print("Bot is ready")
+    print(len(synced))
 
 
-@bot.command(name='ping', help='Sends jotchua :)')
-async def ping(ctx):
-    await ctx.send('<:jotchua:992580804188319824>')
+@bot.tree.command(name='ping', description='Sends jotchua!', guild=discord.Object(id=752401958647890104))
+async def ping(interaction: Interaction):
+    await interaction.response.send_message("<:jotchua:992580804188319824>")
 
+@bot.tree.command(name='example', description='g', guild=discord.Object(id=752401958647890104))
+async def example(interaction: Interaction, message1: str) -> None:
+    await interaction.response.send_message(message1)
 
 @bot.command(name='stop', help='stops bot')
 async def stop(ctx):

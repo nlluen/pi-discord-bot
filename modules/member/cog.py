@@ -1,25 +1,27 @@
-from discord.ext import commands
-import json
 import discord
-import re
+from discord.ext import commands
+from discord import app_commands
 from datetime import datetime
+import json
 
 
 def embed_info(member_id, member):
     members = get_registered_members()
-
     if member_id in members:
+        print('ff')
         name = members[member_id]["Name"]
+
         birthday = members[member_id]["Birthday"]
         dabloons = members[member_id]["Dabloons"]
         pfp = member.display_avatar
-        em = discord.Embed(title=f"{member.nick}'s Information", color=discord.Color.blue())
+        em = discord.Embed(title=f"{member.display_name}'s Information", color=discord.Color.blue())
         em.add_field(name='Name', value=name, inline=True)
         em.add_field(name='Birthday', value=birthday, inline=True)
         em.add_field(name='Dabloons', value=dabloons, inline=False)
         em.add_field(name='Server Join Date', value=member.joined_at.strftime('%m/%d/%Y at %H:%M:%S'), inline=False)
         em.set_thumbnail(url=f'{pfp}')
         # em.set_footer(text="footer")
+
         return em
 
 
@@ -38,21 +40,23 @@ class Member(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='register', help='register your info', usage='<argument1> [optional_argument2]')
-    async def register(self, ctx, *args):
-        name = args[0]
-        birthday = args[1]
-        user_id = ctx.author.id
-
+    @app_commands.command(name='register', description='register your info')
+    @app_commands.guilds(752401958647890104)
+    async def register(self, interaction: discord.Interaction, name: str, birthday: str):
+        user_name = name
+        user_birthday = birthday
+        user_id = interaction.user.id
+        print(user_id)
         try:
-            birthday_date = datetime.strptime(birthday, '%m/%d')
+            birthday_date = datetime.strptime(user_birthday, '%m/%d')
             formatted_birthday = f"{birthday_date.month}/{birthday_date.day}"
+            print(formatted_birthday)
         except ValueError:
-            await ctx.send("Please input a valid calendar in the mm/dd format.")
+            await interaction.response.send_message("Please input a valid calendar in the mm/dd format.")
             return
 
         dic = {
-            "Name": name,
+            "Name": user_name,
             "Birthday": formatted_birthday,
             "User_ID": user_id,
             "Dabloons": 0,
@@ -61,48 +65,47 @@ class Member(commands.Cog):
         members = get_registered_members()
 
         if str(user_id) in members:
-            await ctx.send(f'<@{user_id}> You have already registered.')
+            await interaction.response.send_message(f'<@{user_id}> You have already registered.')
         else:
-            await ctx.send(f'<@{user_id}> Thank you for registering!')
+            await interaction.response.send_message(f'<@{user_id}> Thank you for registering!')
             members[user_id] = dic
             update_registered_members(members)
 
-    @commands.command(name='unregister', help='unregister your info')
-    async def unregister(self, ctx):
+    @app_commands.command(name='unregister', description='unregister your info')
+    @app_commands.guilds(752401958647890104)
+    async def unregister(self, interaction: discord.Interaction):
         members = get_registered_members()
-        user_id = str(ctx.author.id)
+        user_id = str(interaction.user.id)
         if user_id in members:
             del members[user_id]
-            await ctx.send("You have successfully unregistered.")
+            await interaction.response.send_message(f"<@{user_id}> You have successfully unregistered.")
             update_registered_members(members)
         else:
-            await ctx.send("Try registering first.")
+            await interaction.response.send_message(f"<@{user_id}> Try registering first.")
 
-    @commands.command(name='info', help="display your info", usage='<user>')
-    async def info(self, ctx, user: discord.User = None):
-        server_id = 752401958647890104
+    @app_commands.command(name='info', description='display your info')
+    @app_commands.guilds(752401958647890104)
+    async def info(self, interaction: discord.Interaction, user: discord.User = None):
         if user is None:
-            member_id = str(ctx.author.id)
-            member = ctx.author
+            member_id = str(interaction.user.id)
+            member = interaction.user
         else:
             member_id = str(user.id)
-            member = self.bot.get_guild(server_id).get_member(int(member_id))
-
+            member = user
         em = embed_info(member_id, member)
-        await ctx.send(embed=em)
+        await interaction.response.send_message(embed=em)
 
-    @commands.command(name='av', help="display your profile picture")
-    async def av(self, ctx, user: discord.User = None):
-        server_id = 752401958647890104
+    @app_commands.command(name='av', description="display your or someone else's profile picture")
+    @app_commands.guilds(752401958647890104)
+    async def av(self, interaction: discord.Interaction, user: discord.User = None):
         if user is None:
-            member = ctx.message.author
-            pfp = ctx.message.author.display_avatar
+            member = interaction.user
         else:
-            pfp = user.display_avatar
-            member = self.bot.get_guild(server_id).get_member(user.id)
+            member = user
+        pfp = member.display_avatar
         em = discord.Embed(title=f"{member.display_name}'s Avatar", color=discord.Color.blue())
         em.set_image(url=f'{pfp}')
-        await ctx.send(embed=em)
+        await interaction.response.send_message(embed=em)
 
     @commands.command(name='birthdays', help='list of birthdays')
     async def birthdays(self, ctx):
@@ -121,8 +124,6 @@ class Member(commands.Cog):
             if birthday and name:
                 embed.add_field(name=name, value=birthday, inline=False)
         await ctx.send(embed=embed)
-
-
 
 
 async def setup(bot):
