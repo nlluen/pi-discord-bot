@@ -13,7 +13,6 @@ class Events(commands.Cog):
         ignore_message = gifs.get_ignore_message()
 
         if ignore_message:
-            print('ignoring message')
             return
 
         if message.author == self.bot.user:
