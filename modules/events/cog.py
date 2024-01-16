@@ -26,11 +26,11 @@ class Events(commands.Cog):
         embed = discord.Embed(title=f"{message.author.name}", color=0xff0000)
         embed.add_field(name=f'Message was deleted in {message.channel.mention}', value=f'*{message.content}*')
         embed.set_footer(text=message.created_at.strftime('%m/%d/%Y at %I:%M:%S %p')) #I is for Hour on 12 hour clock and %p is for AM/PM
-        with open('pictures/deleted.jpg', 'rb') as f:
-            image = discord.File(f)
-            # Send the image to the channel
-            await deleted_channel.send(file=image)
-        await log_channel.send(embed=embed)
+        # with open('pictures/deleted.jpg', 'rb') as f:
+        #     image = discord.File(f)
+        #     # Send the image to the channel
+        #     await deleted_channel.send(file=image)
+        # await log_channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
