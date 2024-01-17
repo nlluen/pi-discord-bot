@@ -61,6 +61,35 @@ class Utility(commands.Cog):
         else:
             await interaction.response.send_message("Tails!")
 
+    @app_commands.command(name='addrole', description='Give yourself a role')
+    @app_commands.guilds(752401958647890104)
+    # @commands.cooldown(1, 1, commands.BucketType.user)
+    # @commands.command(name='flip', help='Flip a coin to make your basic life choices and guess the outcome')
+    async def addrole(self, interaction: discord.Interaction, role: discord.Role):
+        roles = interaction.user.roles
+        print(roles)
+        print(role)
+        restricted_roles = ["Men", "Untitled", "Champion Of Halloween", "The Godfather", "The Godmother", "The Godson", "ECE", "Hall Of Shame"]
+        if role not in roles and role.name not in restricted_roles:
+            await interaction.user.add_roles(role)
+            await interaction.response.send_message(f"You have been given the *{role}* role")
+        elif role in roles:
+            await interaction.response.send_message("You already have this role!")
+        else:
+            await interaction.response.send_message("Sorry but you cannot access that role!")
+
+    @app_commands.command(name='removerole', description='Remove a role')
+    @app_commands.guilds(752401958647890104)
+    # @commands.cooldown(1, 1, commands.BucketType.user)
+    # @commands.command(name='flip', help='Flip a coin to make your basic life choices and guess the outcome')
+    async def removerole(self, interaction: discord.Interaction, role: discord.Role):
+        roles = interaction.user.roles
+        if role in roles:
+            await interaction.user.remove_roles(role)
+            await interaction.response.send_message(f"Successfully removed the {role} role!")
+        else:
+            await interaction.response.send_message("You cannot remove a role you do not have!")
+
 
     #
     # @app_commands.command(name='flip2', description='Flip a coin and bet on which side it lands')
