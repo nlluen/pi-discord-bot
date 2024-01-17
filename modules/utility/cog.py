@@ -67,8 +67,6 @@ class Utility(commands.Cog):
     # @commands.command(name='flip', help='Flip a coin to make your basic life choices and guess the outcome')
     async def addrole(self, interaction: discord.Interaction, role: discord.Role):
         roles = interaction.user.roles
-        print(roles)
-        print(role)
         restricted_roles = ["Men", "Untitled", "Champion Of Halloween", "The Godfather", "The Godmother", "The Godson", "ECE", "Hall Of Shame"]
         if role not in roles and role.name not in restricted_roles:
             await interaction.user.add_roles(role)
