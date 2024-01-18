@@ -67,21 +67,18 @@ class Events(commands.Cog):
             embed.description = f'{user.display_name} joined {after.channel.name}'
 
             await log_channel.send(embed=embed)
-            print(f'{user.display_name} joined {after.channel.name}')
             # Add your custom logic here
 
             # Check if the user left a voice channel
         elif before.channel is not None and after.channel is None:
             embed.description = f'{user.display_name} left {before.channel.name}'
             await log_channel.send(embed=embed)
-            print(f'{user.display_name} left {before.channel.name}')
             # Add your custom logic here
 
             # Check if the user switched voice channels
         elif before.channel is not None and after.channel is not None and before.channel != after.channel:
             embed.description = f'{user.display_name} switched from {before.channel.name} to {after.channel.name}'
             await log_channel.send(embed=embed)
-            print(f'{user.display_name} switched from {before.channel.name} to {after.channel.name}')
 
 
 async def setup(bot):
