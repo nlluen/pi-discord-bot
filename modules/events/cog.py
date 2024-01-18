@@ -31,7 +31,7 @@ class Events(commands.Cog):
         #     image = discord.File(f)
         #     # Send the image to the channel
         #     await deleted_channel.send(file=image)
-        # await log_channel.send(embed=embed)
+        await log_channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
