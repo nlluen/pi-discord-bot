@@ -22,7 +22,7 @@ class Events(commands.Cog):
         channel_id = message.channel.id
         mod_log_id = 762824517654937631
         log_channel = self.bot.get_channel(mod_log_id)
-        deleted_channel = self.bot.get_channel(channel_id)
+        # deleted_channel = self.bot.get_channel(channel_id)
         # Log the deleted message to a file or database
         embed = discord.Embed(title=f"{message.author.name}", color=0xff0000)
         embed.add_field(name=f'Message was deleted in {message.channel.mention}', value=f'*{message.content}*')

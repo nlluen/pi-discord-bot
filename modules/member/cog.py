@@ -41,7 +41,7 @@ class Member(commands.Cog):
     @app_commands.command(name='register', description='register your info')
     @app_commands.guilds(752401958647890104)
     async def register(self, interaction: discord.Interaction, name: str, birthday: str):
-        user_name = name
+        user_name = name.title().strip()
         user_birthday = birthday
         user_id = interaction.user.id
         #print(user_id)
@@ -131,12 +131,6 @@ class Member(commands.Cog):
                     embed.add_field(name=name, value=birthday, inline=False)
 
         await interaction.response.send_message(embed=embed)
-
-
-
-
-
-
 
 
 async def setup(bot):

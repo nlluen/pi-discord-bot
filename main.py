@@ -22,9 +22,11 @@ async def on_ready():
 async def ping(interaction: Interaction):
     await interaction.response.send_message("<:jotchua:992580804188319824>")
 
+
 @bot.tree.command(name='example', description='g', guild=discord.Object(id=752401958647890104))
 async def example(interaction: Interaction, message1: str) -> None:
     await interaction.response.send_message(message1)
+
 
 @bot.command(name='stop', help='stops bot')
 async def stop(ctx):
