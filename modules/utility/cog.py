@@ -14,7 +14,7 @@ class Utility(commands.Cog):
     @commands.has_any_role('Untitled', 'The Godfather')
     @commands.command(name='purge', help='purge x amount of message')
     async def purge(self, ctx, arg: int):
-        if arg < 15:
+        if arg < 51:
             await ctx.channel.purge(limit=arg+1)
             await asyncio.sleep(3)
 
