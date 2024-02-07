@@ -5,10 +5,9 @@ import random
 import json
 
 
-def get_work_message():
-    message = "Happy 5 PM everyone"
+def get_work_message(work_role):
+    message = f"{work_role.mention} Happy 5 PM!"
     return message
-    # message_list = ["Happy 5 PM everyone!"]
 
 
 def get_morning_messages():
@@ -26,9 +25,10 @@ class Timed_Messages(commands.Cog):
         #self.water_reminder.start()
 
     # @commands.cooldown(1, 1, commands.BucketType.user)
-    @tasks.loop(seconds=60)
+    @tasks.loop(seconds=2)
     async def daily_messages(self):
         date = datetime.datetime.now()
+        guild_id = 752401958647890104
         gen_channel_id = 752401958647890108
         gen_channel = self.bot.get_channel(gen_channel_id)
         if gen_channel:
@@ -42,7 +42,9 @@ class Timed_Messages(commands.Cog):
                 await gen_channel.send("420")
             if hour == 17 and minute == 00:
                 if date.weekday() < 5:
-                    work_message = get_work_message()
+                    work_role_id = 1196998049319374848
+                    work_role = self.bot.get_guild(guild_id).get_role(work_role_id)
+                    work_message = get_work_message(work_role)
                     await gen_channel.send(work_message)
             if hour == 23 and minute == 11:
                 await gen_channel.send("11:11 make a wish")
