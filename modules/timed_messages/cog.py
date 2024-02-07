@@ -25,7 +25,7 @@ class Timed_Messages(commands.Cog):
         #self.water_reminder.start()
 
     # @commands.cooldown(1, 1, commands.BucketType.user)
-    @tasks.loop(seconds=2)
+    @tasks.loop(seconds=60)
     async def daily_messages(self):
         date = datetime.datetime.now()
         guild_id = 752401958647890104
