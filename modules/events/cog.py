@@ -3,8 +3,11 @@ import datetime
 
 import discord
 from discord.ext import commands
+previous_message = None
+
 
 class Events(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -79,6 +82,18 @@ class Events(commands.Cog):
         elif before.channel is not None and after.channel is not None and before.channel != after.channel:
             embed.description = f'{user.display_name} switched from {before.channel.name} to {after.channel.name}'
             await log_channel.send(embed=embed)
+
+    # @commands.Cog.listener()
+    # async def on_message(self, message):
+    #     global previous_message
+    #     if previous_message is not None:
+    #         if message.content == previous_message.content:
+    #             await previous_message.add_reaction("👍")
+    #             await message.add_reaction("👍")
+    #
+    #     previous_message = message
+
+
 
 
 async def setup(bot):
