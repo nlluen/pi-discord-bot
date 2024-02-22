@@ -88,6 +88,30 @@ class Utility(commands.Cog):
         else:
             await interaction.response.send_message("You cannot remove a role you do not have!")
 
+    @app_commands.command(name='serverinfo', description='Get the general info for the server!')
+    @app_commands.guilds(752401958647890104)
+    async def serverinfo(self, interaction: discord.Interaction):
+        guild = interaction.guild
+        guild_name = guild.name
+        guild_description = guild.description
+        guild_icon_url = guild.icon.url
+        guild_creation_date = guild.created_at.strftime("%m/%d/%Y at %I:%M %p")
+        guild_member_count = guild.member_count
+        guild_channels = await guild.fetch_channels()
+        guild_text_channel_count = sum(1 for channel in guild_channels if isinstance(channel, discord.TextChannel))
+        guild_voice_channel_count = sum(1 for channel in guild_channels if isinstance(channel, discord.VoiceChannel))
+        print(guild_voice_channel_count)
+
+        embed = discord.Embed(title=guild_name, color=discord.Color.dark_gold())
+        embed.description = guild_description
+        embed.set_thumbnail(url=guild_icon_url)
+        embed.add_field(name="Created on", value=guild_creation_date)
+        embed.add_field(name="Members", value=guild_member_count)
+        embed.add_field(name="Text Channels", value=guild_text_channel_count, inline=False)
+        embed.add_field(name="Voice Channels", value=guild_voice_channel_count)
+        await interaction.response.send_message(embed=embed)
+
+
 
     #
     # @app_commands.command(name='flip2', description='Flip a coin and bet on which side it lands')
