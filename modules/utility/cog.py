@@ -10,7 +10,6 @@ class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-
     @commands.has_any_role('Untitled', 'The Godfather')
     @commands.command(name='purge', help='purge x amount of message')
     async def purge(self, ctx, arg: int):
@@ -42,7 +41,6 @@ class Utility(commands.Cog):
     # @commands.command(name='flip', help='Flip a coin to make your basic life choices and guess the outcome')
     async def flip(self, interaction: discord.Interaction, guess: str=None):
         HoT = random.randint(0, 1)
-
 
         if guess is not None:
             guess = guess.lower()
@@ -100,8 +98,6 @@ class Utility(commands.Cog):
         guild_channels = await guild.fetch_channels()
         guild_text_channel_count = sum(1 for channel in guild_channels if isinstance(channel, discord.TextChannel))
         guild_voice_channel_count = sum(1 for channel in guild_channels if isinstance(channel, discord.VoiceChannel))
-        print(guild_voice_channel_count)
-
         embed = discord.Embed(title=guild_name, color=discord.Color.dark_gold())
         embed.description = guild_description
         embed.set_thumbnail(url=guild_icon_url)
@@ -111,7 +107,16 @@ class Utility(commands.Cog):
         embed.add_field(name="Voice Channels", value=guild_voice_channel_count)
         await interaction.response.send_message(embed=embed)
 
+    @app_commands.command(name="roleinfo", description="Get the information about a role")
+    @app_commands.guilds(752401958647890104)
+    async def roleinfo(self, interaction: discord.Interaction, role: discord.Role):
+        members_with_role = [member for member in role.members]
+        member_names = " • ".join([member.display_name for member in members_with_role])
 
+        embed = discord.Embed(title=f"Role Info: {role.name}", color=discord.Color.blue())
+        embed.add_field(name="Members with this role", value=len(members_with_role), inline=False)
+        embed.add_field(name="Members", value=member_names, inline=False)
+        await interaction.response.send_message(embed=embed)
 
     #
     # @app_commands.command(name='flip2', description='Flip a coin and bet on which side it lands')
