@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import datetime
 import random
 import json
+from modules import updateHolidays
 
 
 def get_work_message(work_role):
@@ -38,6 +39,11 @@ class Timed_Messages(commands.Cog):
             if hour == 8 and minute == 00:
                 morning_message = get_morning_messages()
                 await gen_channel.send(date.strftime(f"{morning_message} Today is %B %d, %Y"))
+                days = updateHolidays()
+                embed = discord.Embed(title="Here Are The Fun Holidays For Today")
+                for holiday in days:
+                    embed.add_field(name='\n', value=f'{holiday}\n', inline=False)
+                await gen_channel.send(embed=embed)    
             if hour == 16 and minute == 20:
                 await gen_channel.send("420")
             if hour == 17 and minute == 00:
